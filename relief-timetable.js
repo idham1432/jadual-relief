@@ -23,22 +23,33 @@ const reliefContainer = document.createElement('div');
 reliefContainer.id = 'reliefTimetable';
 document.body.appendChild(reliefContainer);
 
-// Time helpers
-function getSessionStart(index) {
-  const period = [ "7:30", "8:00", "8:30", "9:00", "9:30", "9:50", "10:20", "10:50", "11:20", "11:50", "12:20" ];
-  return period[index] || "";
+const BASE_HOUR = 7;
+const BASE_MINUTE = 30;
+
+function getSessionStart(index, sessions) {
+  let minutesFromStart = 0;
+  for (let i = 0; i < index; i++) {
+    minutesFromStart += sessions[i].duration;
+  }
+  const totalMinutes = BASE_HOUR * 60 + BASE_MINUTE + minutesFromStart;
+  const hour = Math.floor(totalMinutes / 60);
+  const minute = totalMinutes % 60;
+  return `${pad(hour)}:${pad(minute)}`;
 }
 
-function getSessionEnd(index, duration) {
-  const start = getSessionStart(index);
-  if (!start) return "";
-  const [h, m] = start.split(":").map(Number);
-  const date = new Date(2000, 0, 1, h, m + duration);
-  return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+function getSessionEnd(index, sessions) {
+  let minutesFromStart = 0;
+  for (let i = 0; i <= index; i++) {
+    minutesFromStart += sessions[i].duration;
+  }
+  const totalMinutes = BASE_HOUR * 60 + BASE_MINUTE + minutesFromStart;
+  const hour = Math.floor(totalMinutes / 60);
+  const minute = totalMinutes % 60;
+  return `${pad(hour)}:${pad(minute)}`;
 }
 
-function pad(n) {
-  return n < 10 ? '0' + n : n;
+function pad(num) {
+  return num.toString().padStart(2, '0');
 }
 
 function isOverlap(start1, end1, start2, end2) {
@@ -130,7 +141,7 @@ function generateManualReliefTable(absentTeachers) {
         row.insertCell().textContent = absent;
         row.insertCell().textContent = s.classroom;
         row.insertCell().textContent = s.subject;
-        row.insertCell().textContent = `${getSessionStart(k)} - ${getSessionEnd(k, s.duration)}`;
+        row.insertCell().textContent = `${getSessionStart(k, sessions)} - ${getSessionEnd(k, sessions)}`;
 
         const select = document.createElement('select');
         select.style.width = '100%';
@@ -148,8 +159,8 @@ function generateManualReliefTable(absentTeachers) {
         optGroupUnavailable.label = "Unavailable Teachers";
 
         // Session timing for this task
-        const taskStart = getSessionStart(k);
-        const taskEnd = getSessionEnd(k, s.duration);
+        const taskStart = getSessionStart(k, sessions);
+        const taskEnd = getSessionEnd(k, sessions);
 
         sortedTeachers.forEach(t => {
           if (absentTeachers.includes(t.teacher)) return; // Skip any absent teachers
@@ -162,8 +173,8 @@ function generateManualReliefTable(absentTeachers) {
           for (let tsIndex = 0; tsIndex < t.sessions.length; tsIndex++) {
             const ts = t.sessions[tsIndex];
             if (!ts.subject) continue;
-            const tsStart = getSessionStart(tsIndex);
-            const tsEnd = getSessionEnd(tsIndex, ts.duration);
+            const tsStart = getSessionStart(tsIndex, t.sessions);
+            const tsEnd = getSessionEnd(tsIndex, t.sessions);
             if (isOverlap(taskStart, taskEnd, tsStart, tsEnd)) {
               isAvailable = false;
               break;
@@ -426,8 +437,8 @@ generateReliefBtn.addEventListener('click', () => {
           const theirSession = t.sessions[k];
           if (!theirSession || theirSession.subject) return false;
 
-          const blockSessionStart = getSessionStart(k);
-          const blockSessionEnd = getSessionEnd(k, sessions[k].duration);
+          const blockSessionStart = getSessionStart(k, sessions);
+          const blockSessionEnd = getSessionEnd(k, sessions);
 
           for (let a of reliefAssignments) {
             if (
@@ -441,8 +452,8 @@ generateReliefBtn.addEventListener('click', () => {
           for (let s = 0; s < t.sessions.length; s++) {
             const ts = t.sessions[s];
             if (!ts.subject) continue;
-            const tsStart = getSessionStart(s);
-            const tsEnd = getSessionEnd(s, ts.duration);
+            const tsStart = getSessionStart(s, t.sessions);
+            const tsEnd = getSessionEnd(s, t.sessions);
             if (isOverlap(blockSessionStart, blockSessionEnd, tsStart, tsEnd)) return false;
           }
         }
@@ -460,16 +471,19 @@ generateReliefBtn.addEventListener('click', () => {
         row.insertCell().textContent = absent;
         row.insertCell().textContent = s.classroom;
         row.insertCell().textContent = s.subject;
-        row.insertCell().textContent = `${getSessionStart(k)} - ${getSessionEnd(k, s.duration)}`;
+        const startTime = getSessionStart(k, sessions);
+        const endTime = getSessionEnd(k, sessions);
+        row.insertCell().textContent = `${startTime} - ${endTime}`;
+
 
         const tdRelief = row.insertCell();
         if (relief) {
           tdRelief.textContent = relief.teacher;
           reliefAssignments.push({
             teacher: relief.teacher,
-            start: getSessionStart(k),
-            end: getSessionEnd(k, s.duration),
-          });
+            start: startTime,
+            end: endTime,
+          });          
         } else {
           tdRelief.textContent = "No relief available";
           tdRelief.style.color = "red";
