@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jadual Relief</title>
+  <link rel="shortcut icon" href="schedule.png" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/9c603c8fa5.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <i class="fa-solid fa-bars"></i>
+    <img class="schedule-img" src="schedule.png" alt="">
+    <div class="left-section">
+      <i id="toggleIcon" class="fa-solid fa-toggle-off"></i>
+      <div class="profile-img">
+        <p>N</p>
+      </div>
+    </div>
+    
+  </nav>
+
+  <!-- Timetable -->
+  <h2>Timetable</h2>
+  <div id="timetableContainer"></div>
+
+  <!-- Absent Teachers -->
+  <h2>Absent Teachers</h2>
+  <div id="absentTeachersContainer"></div>
+  <div id="reliefContainer"></div>
+
+  <!-- Relief Timetable -->
+  <button id="generateReliefBtn">Generate Relief Timetable</button>
+  <button id="selectAllBtn">Select All</button>
+  <button id="resetCheckboxesBtn">Reset Selections</button>
+
+  <!-- Required libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <!-- Navbar -->
+  <script src="navbar.js"></script>
+
+  <!-- Timetable -->
+  <script src="data.js"></script>
+  <script src="timetable.js"></script>
+  
+  <!-- Absent Teachers -->
+  <!-- Relief Timetable -->
+  <script src="relief-timetable.js"></script>
+</body>
+</html>
