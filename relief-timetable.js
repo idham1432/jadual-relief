@@ -367,7 +367,7 @@ async function downloadManualReliefPNG() {
   wrapper.setAttribute("style", originalStyle);
 }
 
-generateReliefBtn.addEventListener('click', () => {
+function generateRelief() {
   const checkboxes = document.querySelectorAll('input[name="absentTeachers"]:checked');
   const absentTeachers = Array.from(checkboxes).map(cb => cb.value);
 
@@ -403,6 +403,7 @@ generateReliefBtn.addEventListener('click', () => {
   });
 
   const table = document.createElement('table');
+  table.id = 'relief-table';
   table.style.width = '100%';
   table.border = '1';
 
@@ -492,7 +493,6 @@ generateReliefBtn.addEventListener('click', () => {
         const endTime = getSessionEnd(k, sessions);
         row.insertCell().textContent = `${startTime} - ${endTime}`;
 
-
         const tdRelief = row.insertCell();
         if (relief) {
           tdRelief.textContent = relief.teacher;
@@ -535,7 +535,17 @@ generateReliefBtn.addEventListener('click', () => {
 
   // Generate manual relief table
   generateManualReliefTable(absentTeachers);
-});
+
+  // Save to localStorage
+  localStorage.setItem('absentTeachers', JSON.stringify(absentTeachers));
+  localStorage.setItem('reliefTableHTML', table.outerHTML);
+  const table2 = document.getElementById('relief-table-2');
+  if (table2) {
+    localStorage.setItem('reliefTable2HTML', table2.outerHTML);
+  }
+};
+
+generateReliefBtn.addEventListener('click', generateRelief);
 
 const resetCheckboxesBtn = document.getElementById('resetCheckboxesBtn');
 
@@ -638,3 +648,75 @@ async function downloadAutoReliefPNG() {
   // Restore original style
   tableDiv.setAttribute("style", originalStyle);
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+  const savedTable1 = localStorage.getItem('reliefTableHTML');
+  const savedTable2 = localStorage.getItem('reliefTable2HTML');
+  const savedTeachers = JSON.parse(localStorage.getItem('absentTeachers') || '[]');
+
+  if (savedTable1 || savedTable2) {
+    reliefContainer.innerHTML = '';
+
+    const wrapper = document.createElement('div');
+    wrapper.id = 'relief-timetable';
+    reliefContainer.appendChild(wrapper);
+
+    const heading = document.createElement('h2');
+    heading.textContent = 'Relief Timetable';
+    wrapper.appendChild(heading);
+
+    const datePara = document.createElement('p');
+    datePara.innerHTML = 'Date: <input type="date" id="reliefDate">';
+    wrapper.appendChild(datePara);
+
+    const dayPara = document.createElement('p');
+    dayPara.innerHTML = 'Day: <span id="reliefDay"></span>';
+    wrapper.appendChild(dayPara);
+
+    const dateInput = datePara.querySelector('#reliefDate');
+    const daySpan = dayPara.querySelector('#reliefDay');
+    dateInput.addEventListener('change', () => {
+      const date = new Date(dateInput.value);
+      const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+      daySpan.textContent = isNaN(date) ? '' : dayName;
+    });
+
+    if (savedTable1) {
+      const div1 = document.createElement('div');
+      div1.innerHTML = savedTable1;
+      wrapper.appendChild(div1.firstChild);
+    }
+
+    if (savedTable2) {
+      const div2 = document.createElement('div');
+      div2.innerHTML = savedTable2;
+      wrapper.appendChild(div2.firstChild);
+    }
+
+    // Also recheck saved checkboxes
+    document.querySelectorAll('input[name="absentTeachers"]').forEach(cb => {
+      cb.checked = savedTeachers.includes(cb.value);
+    });
+
+    // Restore Download Buttons
+    const downloadBtn = document.createElement('button');
+    downloadBtn.className = 'download-pdf-btn';
+    downloadBtn.textContent = 'Download PDF';
+    downloadBtn.style.marginTop = '10px';
+    downloadBtn.style.marginBottom = '30px';
+    downloadBtn.addEventListener('click', downloadPDF);
+    wrapper.appendChild(downloadBtn);
+
+    const pngDownloadBtn = document.createElement('button');
+    pngDownloadBtn.className = 'download-png-btn';
+    pngDownloadBtn.textContent = 'Download PNG';
+    pngDownloadBtn.style.marginTop = '10px';
+    pngDownloadBtn.style.marginLeft = '10px';
+    pngDownloadBtn.style.marginBottom = '30px';
+    pngDownloadBtn.addEventListener('click', downloadAutoReliefPNG);
+    wrapper.appendChild(pngDownloadBtn);
+
+    // 🔥 Recreate manual relief table (important!)
+    generateManualReliefTable(savedTeachers);
+  }
+});
