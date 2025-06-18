@@ -15,14 +15,13 @@ window.addEventListener('scroll', () => {
   lastScroll = currentScroll;
 });
 
-const toggleIcon = document.getElementById('toggleIcon');
+const themeToggle = document.getElementById('themeToggle');
+  const body = document.body;
 
-toggleIcon.addEventListener('click', () => {
-  if (toggleIcon.classList.contains('fa-toggle-off')) {
-    toggleIcon.classList.remove('fa-toggle-off');
-    toggleIcon.classList.add('fa-toggle-on');
-  } else {
-    toggleIcon.classList.remove('fa-toggle-on');
-    toggleIcon.classList.add('fa-toggle-off');
-  }
+themeToggle.addEventListener('click', () => {
+  body.classList.toggle('dark-mode');
+
+  // Toggle the icon
+  themeToggle.classList.toggle('fa-toggle-off');
+  themeToggle.classList.toggle('fa-toggle-on');
 });
