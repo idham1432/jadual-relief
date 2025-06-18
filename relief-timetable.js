@@ -158,6 +158,9 @@ function generateManualReliefTable(absentTeachers) {
         const optGroupUnavailable = document.createElement('optgroup');
         optGroupUnavailable.label = "Unavailable Teachers";
 
+        const optGroupSpecial = document.createElement('optgroup');
+        optGroupSpecial.label = "Special Cases";
+
         // Session timing for this task
         const taskStart = getSessionStart(k, sessions);
         const taskEnd = getSessionEnd(k, sessions);
@@ -183,17 +186,31 @@ function generateManualReliefTable(absentTeachers) {
 
           const opt = document.createElement('option');
           opt.value = t.teacher;
-          opt.textContent = `${t.teacher} (${sessionCount})`;
 
           if (isAvailable) {
+            opt.textContent = `${t.teacher} (${sessionCount})`;
             optGroupAvailable.appendChild(opt);
           } else {
+            opt.textContent = `🚫 ${t.teacher} (${sessionCount})`;  // visually distinguish
             optGroupUnavailable.appendChild(opt);
           }
         });
 
+        // Example: Add a special case option
+        const specialCase = [
+          'PROGRAM', 'PENGAWAS', 'MURID DI KELAS', 'MURID DI DEWAN', 'MURID DI DATARAN'
+        ];
+
+        specialCase.forEach(name => {
+          const opt = document.createElement('option');
+          opt.value = name;
+          opt.textContent = `⭐️ ${name}`;
+          optGroupSpecial.appendChild(opt);
+        });
+
         select.appendChild(optGroupAvailable);
         select.appendChild(optGroupUnavailable);
+        select.appendChild(optGroupSpecial);
 
         // Track session time for collision logic
         select.setAttribute('data-session-time', `${taskStart}-${taskEnd}`);
