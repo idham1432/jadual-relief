@@ -67,6 +67,12 @@ function countTeachingSessions(teacherData) {
   return teacherData.sessions.filter(s => s.subject).length;
 }
 
+function selOptionIsSpecial(select) {
+  const selectedOption = select.options[select.selectedIndex];
+  const optgroup = selectedOption?.parentElement;
+  return optgroup?.label === 'Special Cases';
+}
+
 function generateManualReliefTable(absentTeachers) {
   const manualWrapper = document.createElement('div');
   manualWrapper.id = 'manualReliefWrapper'; // wrapper for PDF
@@ -219,38 +225,35 @@ function generateManualReliefTable(absentTeachers) {
 
         // Add event listener to prevent duplicate assignments for same time
         select.addEventListener('change', () => {
-          const selectedTeacher = select.value;
+          const selectedValue = select.value;
           const sessionTime = select.getAttribute('data-session-time');
 
-          // If special case (starts with ⭐️), skip conflict logic
-          if (selectedTeacher.startsWith('⭐️')) return;
-
           document.querySelectorAll('select[data-session-time]').forEach(otherSelect => {
-            if (otherSelect === select) return; // Skip the current select
-
             const otherSessionTime = otherSelect.getAttribute('data-session-time');
 
-            const options = otherSelect.querySelectorAll('option');
-            options.forEach(option => {
-              // Skip special cases
-              if (option.value.startsWith('⭐️')) return;
-
-              if (option.value === selectedTeacher) {
-                if (sessionTime === otherSessionTime && selectedTeacher !== "") {
-                  option.disabled = true;
-                } else {
-                  option.disabled = false;
-                }
-              }
-            });
-
-            // Re-enable teachers not selected anywhere else
+            // Collect all selected teacher values (excluding special cases)
             const allSelected = Array.from(document.querySelectorAll('select'))
               .map(sel => sel.value)
-              .filter(v => !v.startsWith('⭐️'));
+              .filter(v => v && !selOptionIsSpecial(sel));
 
-            options.forEach(option => {
-              if (!allSelected.includes(option.value) && !option.value.startsWith('⭐️')) {
+            otherSelect.querySelectorAll('option').forEach(option => {
+              const optgroup = option.parentElement;
+              const isSpecialCase = optgroup && optgroup.label === 'Special Cases';
+
+              if (isSpecialCase) {
+                option.disabled = false; // always keep special cases enabled
+                return;
+              }
+
+              const isSelectedInSameTime = (
+                option.value === selectedValue &&
+                sessionTime === otherSessionTime &&
+                selectedValue !== ""
+              );
+
+              if (isSelectedInSameTime) {
+                option.disabled = true;
+              } else if (!allSelected.includes(option.value)) {
                 option.disabled = false;
               }
             });
