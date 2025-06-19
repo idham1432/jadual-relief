@@ -38,7 +38,7 @@ h2 {
 }
 .navbar .schedule-img {
   height: 100%;
-  margin-left: 78px;
+  /* margin-left: 78px; */
   cursor: pointer;
 }
 .navbar .left-section {

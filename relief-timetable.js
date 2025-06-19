@@ -212,6 +212,8 @@ function generateManualReliefTable(absentTeachers) {
         select.appendChild(optGroupUnavailable);
         select.appendChild(optGroupSpecial);
 
+        select.addEventListener('change', saveManualSelections);
+
         // Track session time for collision logic
         select.setAttribute('data-session-time', `${taskStart}-${taskEnd}`);
 
@@ -276,6 +278,40 @@ function generateManualReliefTable(absentTeachers) {
   pngDownloadBtn.style.marginLeft = '10px';
   pngDownloadBtn.onclick = downloadManualReliefPNG;
   manualWrapper.appendChild(pngDownloadBtn);
+
+  // 🧹 Add Reset Button
+  const resetBtn = document.createElement('button');
+  resetBtn.textContent = 'Reset Dropdowns';
+  resetBtn.style.marginTop = '10px';
+  resetBtn.style.marginLeft = '10px';
+  resetBtn.addEventListener('click', () => {
+    localStorage.removeItem('manualReliefSelections');
+    document.querySelectorAll('#manualReliefWrapper select').forEach(dropdown => {
+      dropdown.selectedIndex = 0; // Reset to first option
+      dropdown.dispatchEvent(new Event('change')); // Reapply logic if needed
+    });
+  });
+
+  manualWrapper.appendChild(resetBtn);
+
+  // ✅ Restore dropdown selections from localStorage
+  const savedSelections = JSON.parse(localStorage.getItem('manualReliefSelections') || '{}');
+
+  document.querySelectorAll('#manualReliefWrapper select').forEach((dropdown, index) => {
+    if (savedSelections[index]) {
+      dropdown.value = savedSelections[index];
+      dropdown.dispatchEvent(new Event('change')); // applies the disabling logic too
+    }
+  });
+
+}
+
+function saveManualSelections() {
+  const selections = {};
+  document.querySelectorAll('#manualReliefWrapper select').forEach((dropdown, index) => {
+    selections[index] = dropdown.value;
+  });
+  localStorage.setItem('manualReliefSelections', JSON.stringify(selections));
 }
 
 async function downloadManualReliefPDF() {
