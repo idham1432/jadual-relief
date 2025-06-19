@@ -201,10 +201,10 @@ function generateManualReliefTable(absentTeachers) {
           'PROGRAM', 'PENGAWAS', 'MURID DI KELAS', 'MURID DI DEWAN', 'MURID DI DATARAN'
         ];
 
-        specialCase.forEach(name => {
+        specialCase.forEach(event => {
           const opt = document.createElement('option');
-          opt.value = name;
-          opt.textContent = `⭐️ ${name}`;
+          opt.value = event;
+          opt.textContent = `⭐️ ${event}`;
           optGroupSpecial.appendChild(opt);
         });
 
@@ -222,14 +222,19 @@ function generateManualReliefTable(absentTeachers) {
           const selectedTeacher = select.value;
           const sessionTime = select.getAttribute('data-session-time');
 
+          // If special case (starts with ⭐️), skip conflict logic
+          if (selectedTeacher.startsWith('⭐️')) return;
+
           document.querySelectorAll('select[data-session-time]').forEach(otherSelect => {
             if (otherSelect === select) return; // Skip the current select
 
             const otherSessionTime = otherSelect.getAttribute('data-session-time');
 
-            // Loop through options in other selects
             const options = otherSelect.querySelectorAll('option');
             options.forEach(option => {
+              // Skip special cases
+              if (option.value.startsWith('⭐️')) return;
+
               if (option.value === selectedTeacher) {
                 if (sessionTime === otherSessionTime && selectedTeacher !== "") {
                   option.disabled = true;
@@ -239,11 +244,13 @@ function generateManualReliefTable(absentTeachers) {
               }
             });
 
-            // Re-enable any previously disabled teachers that are no longer selected
+            // Re-enable teachers not selected anywhere else
             const allSelected = Array.from(document.querySelectorAll('select'))
-              .map(sel => sel.value);
+              .map(sel => sel.value)
+              .filter(v => !v.startsWith('⭐️'));
+
             options.forEach(option => {
-              if (!allSelected.includes(option.value)) {
+              if (!allSelected.includes(option.value) && !option.value.startsWith('⭐️')) {
                 option.disabled = false;
               }
             });
