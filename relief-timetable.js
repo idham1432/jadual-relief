@@ -291,7 +291,8 @@ function generateManualReliefTable(absentTeachers) {
 
   // 🧹 Add Reset Button
   const resetBtn = document.createElement('button');
-  resetBtn.textContent = 'Reset Dropdowns';
+  resetBtn.className = 'reset-dropdown-btn';
+  resetBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i>';
   resetBtn.style.marginTop = '10px';
   resetBtn.style.marginLeft = '10px';
   resetBtn.addEventListener('click', () => {
