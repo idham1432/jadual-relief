@@ -275,17 +275,14 @@ function generateManualReliefTable(absentTeachers) {
   // 📥 Add Download Button
   const downloadBtn = document.createElement('button');
   downloadBtn.className = 'download-pdf-btn';
-  downloadBtn.textContent = 'Download PDF';
-  downloadBtn.style.marginTop = '10px';
+  downloadBtn.innerHTML = '<i class="fa-solid fa-file-pdf"></i>';
   downloadBtn.onclick = downloadManualReliefPDF;
   manualWrapper.appendChild(downloadBtn);
 
   // 📷 Add Download PNG Button
   const pngDownloadBtn = document.createElement('button');
   pngDownloadBtn.className = 'download-png-btn';
-  pngDownloadBtn.textContent = 'Download PNG';
-  pngDownloadBtn.style.marginTop = '10px';
-  pngDownloadBtn.style.marginLeft = '10px';
+  pngDownloadBtn.innerHTML = '<i class="fa-regular fa-image"></i>';
   pngDownloadBtn.onclick = downloadManualReliefPNG;
   manualWrapper.appendChild(pngDownloadBtn);
 
@@ -293,8 +290,6 @@ function generateManualReliefTable(absentTeachers) {
   const resetBtn = document.createElement('button');
   resetBtn.className = 'reset-dropdown-btn';
   resetBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i>';
-  resetBtn.style.marginTop = '10px';
-  resetBtn.style.marginLeft = '10px';
   resetBtn.addEventListener('click', () => {
     localStorage.removeItem('manualReliefSelections');
     document.querySelectorAll('#manualReliefWrapper select').forEach(dropdown => {
@@ -564,7 +559,7 @@ function generateRelief() {
   // Add "Download PDF" button
   const downloadBtn = document.createElement('button');
   downloadBtn.className = 'download-pdf-btn';
-  downloadBtn.textContent = 'Download PDF';
+  downloadBtn.innerHTML = '<i class="fa-solid fa-file-pdf"></i>';
   downloadBtn.style.marginTop = '10px';
   downloadBtn.style.marginBottom = '30px';
   downloadBtn.addEventListener('click', downloadPDF);
@@ -573,7 +568,7 @@ function generateRelief() {
   // Add "Download PNG" button
   const pngDownloadBtn = document.createElement('button');
   pngDownloadBtn.className = 'download-png-btn';
-  pngDownloadBtn.textContent = 'Download PNG';
+  pngDownloadBtn.innerHTML = '<i class="fa-regular fa-image"></i>';
   pngDownloadBtn.style.marginTop = '10px';
   pngDownloadBtn.style.marginLeft = '10px';
   pngDownloadBtn.style.marginBottom = '30px';
@@ -748,18 +743,13 @@ window.addEventListener('DOMContentLoaded', () => {
     // Restore Download Buttons
     const downloadBtn = document.createElement('button');
     downloadBtn.className = 'download-pdf-btn';
-    downloadBtn.textContent = 'Download PDF';
-    downloadBtn.style.marginTop = '10px';
-    downloadBtn.style.marginBottom = '30px';
+    downloadBtn.innerHTML = '<i class="fa-solid fa-file-pdf"></i>';
     downloadBtn.addEventListener('click', downloadPDF);
     wrapper.appendChild(downloadBtn);
 
     const pngDownloadBtn = document.createElement('button');
     pngDownloadBtn.className = 'download-png-btn';
-    pngDownloadBtn.textContent = 'Download PNG';
-    pngDownloadBtn.style.marginTop = '10px';
-    pngDownloadBtn.style.marginLeft = '10px';
-    pngDownloadBtn.style.marginBottom = '30px';
+    pngDownloadBtn.innerHTML = '<i class="fa-regular fa-image"></i>';
     pngDownloadBtn.addEventListener('click', downloadAutoReliefPNG);
     wrapper.appendChild(pngDownloadBtn);
 
