@@ -142,8 +142,13 @@ h2 {
 /* ---- Timetable ---- */
 
 /* ---- Absent Teachers ---- */
+/* #absentTeachersContainer {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+} */
 #absentTeachersContainer p {
   margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 #checkboxContainer {
   margin: 10px;
@@ -172,5 +177,51 @@ h2 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-style: italic;
+}
+#checkboxButtonContainer {
+  margin: 10px;
+}
+#selectAllBtn {
+  color: green;
+}
+#resetBtn {
+  color: red;
+}
+#selectAllBtn, #resetBtn {
+  width: 45px;
+  height: 45px;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  background-color: #fff;
+  border-radius: 5px;
+  font-size: 18px;
+  transition: 0.15s;
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 0.75rem;
+  position: absolute;
+  bottom: 100%; /* appears below the button */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
 }
 /* ---- Absent Teachers ---- */

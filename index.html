@@ -34,9 +34,19 @@
     <div class="panel" id="absentTeachersContainer">
       <p>Select the teachers who are absent.</p>
       <div id="checkboxContainer"></div>
-      <div>
-        <button id="selectAllBtn">Select All</button>
-        <button id="resetBtn">Reset</button>
+      <div id="checkboxButtonContainer">
+        <div class="tooltip">
+          <button id="selectAllBtn">
+            <i class="fa-solid fa-check-double"></i>
+          </button>
+          <span class="tooltip-text">Selectt all</span>
+        </div>
+        <div class="tooltip">
+          <button id="resetBtn">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <span class="tooltip-text">Reset selections</span>
+        </div>
       </div>
     </div>
   </div>
