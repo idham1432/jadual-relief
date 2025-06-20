@@ -68,6 +68,11 @@ h2 {
 /* ---- Navbar ---- */
 
 /* ---- Timetable ---- */
+.accordion-container {
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
 .accordion {
   display: flex;
   align-items: center;
@@ -78,8 +83,7 @@ h2 {
   padding: 18px 10px;
   text-align: left;
   outline: none;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  border-radius: 8px;
+  
   margin-bottom: 0;
   transition: 0.4s;
 }
@@ -102,9 +106,9 @@ h2 {
 }
 
 
-#timetableContainer {
+/* #timetableContainer {
   margin-bottom: 30px;
-}
+} */
 .row:first-child {
   background-color: #f0f0f0;
   font-weight: bold;
