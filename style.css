@@ -4,7 +4,7 @@
   padding: 0;
 }
 body {
-  padding: 70px 20px;
+  padding: 70px 40px;
   width: 100%;
   font-family: Arial, sans-serif;
   position: relative;
@@ -140,3 +140,37 @@ h2 {
   flex: 0.66;
 }
 /* ---- Timetable ---- */
+
+/* ---- Absent Teachers ---- */
+#absentTeachersContainer p {
+  margin-left: 10px;
+}
+#checkboxContainer {
+  margin: 10px;
+}
+.checkbox-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  flex-wrap: wrap; /* allows wrapping into multiple rows */
+}
+.checkbox-item {
+  flex: 1 1 120px; /* flex-grow: 1, flex-shrink: 1, min width: 120px */
+  min-width: 0;
+  min-width: 100px;
+  max-width: 200px;
+}
+/* Style for teacher name */
+.teacher-block strong {
+  font-size: 14px; /* Adjust as needed */
+  display: block;
+  margin-bottom: 6px;
+}
+.checkbox-item label {
+  font-size: 12px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* ---- Absent Teachers ---- */

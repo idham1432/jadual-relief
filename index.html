@@ -9,9 +9,10 @@
   <script src="https://kit.fontawesome.com/9c603c8fa5.js" crossorigin="anonymous"></script>
 </head>
 <body>
+  <!-- ***** HTML ***** -->
+
   <!-- Navbar -->
   <nav class="navbar">
-    <!-- <i class="fa-solid fa-bars"></i> -->
     <img class="schedule-img" src="schedule.png" alt="">
     <div class="left-section">
       <i id="themeToggle" class="fa-solid fa-toggle-off"></i>
@@ -26,17 +27,32 @@
     <h2 class="accordion">Timetable</h2>
     <div class="panel" id="timetableContainer"></div>
   </div>
+
+  <!-- Absent Teachers -->
+  <div class="accordion-container">
+    <h2 class="accordion">Absent Teachers</h2>
+    <div class="panel" id="absentTeachersContainer">
+      <p>Select the teachers who are absent.</p>
+      <div id="checkboxContainer"></div>
+    </div>
+  </div>
+
+
+
+
+  <!-- ***** JavaScript ***** -->
   
   <!-- Required libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
   <!-- Navbar -->
   <script src="navbar.js"></script>
-
-  <!-- Timetable -->
+  <!-- Data -->
   <script src="data.js"></script>
+  <!-- Timetable -->
   <script src="timetable.js"></script>
+  <!-- Absent Teachers -->
+  <script src="absent.js"></script>
 </body>
 </html>
