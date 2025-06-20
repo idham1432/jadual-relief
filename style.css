@@ -223,4 +223,9 @@ h2 {
   visibility: visible;
   opacity: 1;
 }
+#absentTeachersContainer h3 {
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 /* ---- Absent Teachers ---- */

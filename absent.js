@@ -55,12 +55,14 @@ window.addEventListener("DOMContentLoaded", () => {
         cb.disabled = disabled;
         if (disabled) cb.checked = false;
       });
+      updateSummaryBar();
     });
   
     teacherBlock.appendChild(checkboxRow);
     container.appendChild(teacherBlock);
   });
   
+  updateSummary();
 
   function formatTime(hour, minute) {
     return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
@@ -80,6 +82,7 @@ window.addEventListener("DOMContentLoaded", () => {
     label.append(` ${labelText}`);
 
     wrapper.appendChild(label);
+    checkbox.addEventListener("change", updateSummary);
     return wrapper;
   }
 });
@@ -108,6 +111,8 @@ document.getElementById("selectAllBtn").addEventListener("click", () => {
       });
     }
   });
+
+  updateSummary();
 });
 
 document.getElementById("resetBtn").addEventListener("click", () => {
@@ -117,4 +122,27 @@ document.getElementById("resetBtn").addEventListener("click", () => {
     cb.checked = false;
     cb.disabled = false;
   });
+
+  updateSummary();
 });
+
+function updateSummary() {
+  const total = timetable.length;
+  let absent = 0;
+
+  timetable.forEach((entry, index) => {
+    const teacherId = `absent-${index}`;
+    const fullDayCheckbox = document.querySelector(`input[name="${teacherId}-fullday"]`);
+    const sessionCheckboxes = document.querySelectorAll(`input[name^="${teacherId}-session"]`);
+
+    // Check if any checkbox is checked (full day or any session)
+    const isAbsent = fullDayCheckbox.checked || Array.from(sessionCheckboxes).some(cb => cb.checked);
+    if (isAbsent) absent++;
+  });
+
+  const present = total - absent;
+
+  document.getElementById("totalCount").textContent = total;
+  document.getElementById("presentCount").textContent = present;
+  document.getElementById("absentCount").textContent = absent;
+}
