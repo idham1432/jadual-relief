@@ -87,6 +87,13 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+document.getElementById('absentDate').addEventListener('change', function () {
+  const date = new Date(this.value);
+  const options = { weekday: 'long' };
+  const day = date.toLocaleDateString('en-US', options);
+  document.getElementById('absentDay').value = day;
+});
+
 document.getElementById("selectAllBtn").addEventListener("click", () => {
   const allCheckboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
 

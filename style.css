@@ -150,6 +150,33 @@ h2 {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+#dateDaySelector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.inputGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.inputGroup label {
+  margin-right: 5px;
+}
+.inputGroup input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+  min-width: 150px;
+  max-width: 200px;
+}
+.inputGroup input[readonly] {
+  cursor: not-allowed;
+}
 #checkboxContainer {
   margin: 10px;
 }
