@@ -66,3 +66,21 @@ window.addEventListener("DOMContentLoaded", () => {
     return wrapper;
   }
 });
+document.getElementById("selectAllBtn").addEventListener("click", () => {
+  const allCheckboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
+
+  // Uncheck all first
+  allCheckboxes.forEach(cb => cb.checked = false);
+
+  // Check only Full Day checkboxes
+  allCheckboxes.forEach(cb => {
+    if (cb.name.includes("fullday")) {
+      cb.checked = true;
+    }
+  });
+});
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  const allCheckboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
+  allCheckboxes.forEach(cb => cb.checked = false);
+});
