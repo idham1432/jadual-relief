@@ -83,21 +83,38 @@ window.addEventListener("DOMContentLoaded", () => {
     return wrapper;
   }
 });
+
 document.getElementById("selectAllBtn").addEventListener("click", () => {
   const allCheckboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
 
-  // Uncheck all first
-  allCheckboxes.forEach(cb => cb.checked = false);
+  // Uncheck everything first
+  allCheckboxes.forEach(cb => {
+    cb.checked = false;
+    cb.disabled = false;
+  });
 
-  // Check only Full Day checkboxes
+  // Select all Full Day checkboxes and disable related session checkboxes
   allCheckboxes.forEach(cb => {
     if (cb.name.includes("fullday")) {
       cb.checked = true;
+
+      // Find corresponding session checkboxes for this teacher
+      const teacherPrefix = cb.name.split("-fullday")[0];
+      const sessionCheckboxes = document.querySelectorAll(`input[name^="${teacherPrefix}-session"]`);
+
+      sessionCheckboxes.forEach(sessionCb => {
+        sessionCb.checked = false;
+        sessionCb.disabled = true;
+      });
     }
   });
 });
 
 document.getElementById("resetBtn").addEventListener("click", () => {
   const allCheckboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
-  allCheckboxes.forEach(cb => cb.checked = false);
+  
+  allCheckboxes.forEach(cb => {
+    cb.checked = false;
+    cb.disabled = false;
+  });
 });
