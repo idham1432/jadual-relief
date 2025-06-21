@@ -15,6 +15,18 @@
   <nav class="navbar">
     <img class="schedule-img" src="schedule.png" alt="">
     <div class="left-section">
+      <a href="#timetableHeader" class="iconTooltip">
+        <i class="fa-regular fa-calendar-days"></i>
+        <span class="tooltipText">Timetable</span>
+      </a>
+      <a href="#absentHeader" class="iconTooltip">
+        <i class="fa-solid fa-user"></i>
+        <span class="tooltipText">Absent Teachers</span>
+      </a>
+      <a href="#reliefHeader" class="iconTooltip">
+        <i class="fa-solid fa-user-gear"></i>
+        <span class="tooltipText">Relief Timetable</span>
+      </a>
       <i id="themeToggle" class="fa-solid fa-toggle-off"></i>
       <div class="profile-img">
         <p>N</p>
@@ -24,13 +36,13 @@
 
   <!-- Timetable -->
   <div class="accordion-container">
-    <h2 class="accordion">Timetable</h2>
+    <h2 class="accordion" id="timetableHeader">Timetable</h2>
     <div class="panel" id="timetableContainer"></div>
   </div>
 
   <!-- Absent Teachers -->
   <div class="accordion-container">
-    <h2 class="accordion">Absent Teachers</h2>
+    <h2 class="accordion" id="absentHeader">Absent Teachers</h2>
     <div class="panel" id="absentTeachersContainer">
       <p>Please select the date, day, and session for the absent teacher.</p>
       <div id="dateDaySelector">
@@ -70,7 +82,7 @@
 
   <!-- Relief -->
   <div class="reliefContainer">
-    <h2>Relief</h2>
+    <h2 id="reliefHeader">Relief</h2>
     <div>
       <button id="generateBtn">Generate</button>
       <div class="reliefTimetable"></div>

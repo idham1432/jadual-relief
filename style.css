@@ -3,6 +3,9 @@
   margin: 0;
   padding: 0;
 }
+html {
+  scroll-behavior: smooth;
+}
 body {
   padding: 70px 40px;
   width: 100%;
@@ -46,8 +49,8 @@ h2 {
   align-items: center;
   justify-content: center;
 }
-.navbar .left-section i {
-  font-size: 28px;
+.left-section i {
+  font-size: 18px;
   margin-right: 15px;
   cursor: pointer;
 }
@@ -64,6 +67,34 @@ h2 {
 .navbar .left-section .profile-img p {
   color: #fff;
   font-size: 20px;
+}
+.iconTooltip {
+  position: relative;
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+}
+.tooltipText {
+  font-size: 10px;
+  visibility: hidden;
+  width: max-content;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  position: absolute;
+  z-index: 1000;
+  bottom: -100%; /* Position above the icon */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+.iconTooltip:hover .tooltipText {
+  visibility: visible;
+  opacity: 1;
 }
 /* ---- Navbar ---- */
 
@@ -302,7 +333,7 @@ h2 {
   width: 100%;
   box-sizing: border-box;
   padding: 6px;
-  font-size: 14px;
+  font-size: 12px;
   border: none;
 }
 /* ---- Relief ---- */
