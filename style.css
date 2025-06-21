@@ -257,6 +257,56 @@ h2 {
 }
 /* ---- Absent Teachers ---- */
 
+/* ---- Relief ---- */
+.reliefContainer {
+  width: 100%;
+  border: 1px solid blue;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+.reliefTimetable table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* ensures widths are respected */
+}
+.reliefTimetable th,
+.reliefTimetable td {
+  padding: 8px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.reliefTimetable th:nth-child(1),
+.reliefTimetable td:nth-child(1) {
+  width: 27.5%;
+}
+.reliefTimetable th:nth-child(2),
+.reliefTimetable td:nth-child(2),
+.reliefTimetable th:nth-child(3),
+.reliefTimetable td:nth-child(3),
+.reliefTimetable th:nth-child(4),
+.reliefTimetable td:nth-child(4) {
+  width: 15%;
+}
+.reliefTimetable th:nth-child(5),
+.reliefTimetable td:nth-child(5) {
+  width: 27.5%;
+}
+.reliefTimetable td:nth-child(5) {
+  padding: 0;
+}
+/* Stretch dropdown */
+.reliefTimetable select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+  font-size: 14px;
+  border: none;
+}
+/* ---- Relief ---- */
+
 /* ---- Notes ---- */
 #toggleNotesBtn {
   position: fixed;
