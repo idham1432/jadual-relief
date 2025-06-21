@@ -21,6 +21,7 @@ function generateReliefTable() {
   const baseHour = 7;
   const baseMinute = 30;
   const scheduleMap = getTeacherSchedule(timetable);
+  const totalSessions = getTotalSessionsPerTeacher(timetable);
 
   const absentTeachers = timetable.filter((entry, index) => {
     const isFullDay = document.querySelector(`input[name="absent-${index}-fullday"]`)?.checked;
@@ -141,7 +142,8 @@ function generateReliefTable() {
       optSpecial.label = "Special Cases";
 
       candidates.forEach(({ name, hasConflict }) => {
-        const label = hasConflict ? `❌ ${name}` : name;
+        const sessionCount = totalSessions[name] || 0;
+        const label = hasConflict ? `❌ ${name} (${sessionCount})` : `${name} (${sessionCount})`;
         const option = new Option(label, name);
         if (hasConflict) optUnavailable.appendChild(option);
         else optAvailable.appendChild(option);
@@ -241,6 +243,15 @@ function getTeacherSchedule(timetable) {
   });
 
   return schedule;
+}
+
+function getTotalSessionsPerTeacher(timetable) {
+  const totals = {};
+  timetable.forEach(entry => {
+    const count = entry.sessions.filter(s => s.subject && s.classroom).length;
+    totals[entry.teacher] = count;
+  });
+  return totals;
 }
 
 // Create an optgroup with options
