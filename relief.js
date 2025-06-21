@@ -92,19 +92,28 @@ function generateReliefTable() {
       const optSpecial = document.createElement("optgroup");
       optSpecial.label = "Special Cases";
 
-      timetable.forEach(candidate => {
-        const candidateName = candidate.teacher;
-        if (candidateName === teacherName || absentTeachers.includes(candidateName)) return;
-
-        const candidateSchedule = scheduleMap[candidateName];
-        const hasConflict = candidateSchedule.some(cs =>
-          start < cs.end && cs.start < end
-        );
-
-        const label = hasConflict ? `❌ ${candidateName}` : candidateName;
-        const option = new Option(label, candidateName);
-        (hasConflict ? optUnavailable : optAvailable).appendChild(option);
+      // Count sessions per teacher
+      const teacherSessionCount = {};
+      timetable.forEach(entry => {
+        const count = entry.sessions.filter(s => s.subject && s.classroom).length;
+        teacherSessionCount[entry.teacher] = count;
       });
+
+      // Prepare sorted candidate list
+      const candidates = timetable
+        .filter(candidate => candidate.teacher !== teacherName && !absentTeachers.includes(candidate.teacher))
+        .map(candidate => ({
+          name: candidate.teacher,
+          count: teacherSessionCount[candidate.teacher] || 0,
+          hasConflict: scheduleMap[candidate.teacher].some(cs => start < cs.end && cs.start < end)
+        }))
+        .sort((a, b) => a.count - b.count);
+
+      candidates.forEach(({ name, count, hasConflict }) => {
+        const label = hasConflict ? `❌ ${name} (${count})` : `${name} (${count})`;
+        const option = new Option(label, name);
+        (hasConflict ? optUnavailable : optAvailable).appendChild(option);
+      });      
 
       const specialCases = ["No relief available", "Program", "Pengawas", "Murid di kelas"];
       specialCases.forEach(label => {
