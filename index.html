@@ -84,8 +84,36 @@
   <div class="reliefContainer">
     <h2 id="reliefHeader">Relief</h2>
     <div>
-      <button id="generateBtn">Generate</button>
-      <div class="reliefTimetable"></div>
+      <p>Generate, reset selections, or download the relief timetable.</p>
+      <div id="reliefButtonContainer">
+        <div class="tooltip">
+          <button id="generateBtn">
+            <i class="fa-solid fa-gear"></i>
+          </button>
+          <span class="tooltip-text">Generate relief timetable</span>
+        </div>
+        <div class="tooltip">
+          <button id="clearBtn">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <span class="tooltip-text">Clear selections</span>
+        </div>
+        <div class="tooltip">
+          <button id="pdfBtn">
+            <i class="fa-solid fa-download"></i>
+          </button>
+          <span class="tooltip-text">Download PDF</span>
+        </div>
+        <div class="tooltip">
+          <button id="pngBtn">
+            <i class="fa-regular fa-image"></i>
+          </button>
+          <span class="tooltip-text">Download PNG</span>
+        </div>
+      </div>
+      <div class="reliefTimetableContainer">
+        <div class="reliefTimetable"></div>
+      </div>
     </div>
   </div>
 

@@ -117,7 +117,6 @@ h2 {
   padding: 18px 10px;
   text-align: left;
   outline: none;
-  
   margin-bottom: 0;
   transition: 0.4s;
 }
@@ -291,14 +290,59 @@ h2 {
 /* ---- Relief ---- */
 .reliefContainer {
   width: 100%;
-  border: 1px solid blue;
+  border: 2px solid greenyellow;
   border-radius: 8px;
   margin-bottom: 30px;
+}
+.reliefContainer p {
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+#reliefHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #444;
+  cursor: pointer;
+  width: 100%;
+  padding: 18px 10px;
+  text-align: left;
+  outline: none;
+  margin-bottom: 0;
+  transition: 0.4s;
+}
+#reliefButtonContainer {
+  margin: 10px;
+  margin-bottom: 20px;
+}
+#generateBtn, #clearBtn, #pdfBtn, #pngBtn {
+  width: 45px;
+  height: 45px;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  background-color: #fff;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+#generateBtn {
+  color: #0056b3;
+}
+#clearBtn {
+  color: red;
+}
+.reliefTimetableContainer {
+  margin: 10px;
+  border-radius: 8px;
 }
 .reliefTimetable table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed; /* ensures widths are respected */
+}
+.reliefTimetable th {
+  background-color: #f0f0f0;
 }
 .reliefTimetable th,
 .reliefTimetable td {
