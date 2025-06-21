@@ -7,7 +7,7 @@ html {
   scroll-behavior: smooth;
 }
 body {
-  padding: 70px 40px;
+  padding: 70px 40px 100px 40px;
   width: 100%;
   font-family: Arial, sans-serif;
   position: relative;

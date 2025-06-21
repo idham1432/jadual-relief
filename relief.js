@@ -267,5 +267,15 @@ function createOptGroup(label, items) {
   return group;
 }
 
+function clearReliefSelections() {
+  const selects = document.querySelectorAll(".reliefTimetable select");
+  selects.forEach(select => {
+    select.value = ""; // reset to default
+    select.dispatchEvent(new Event("change")); // re-apply conflict rules
+  });
+}
+
+document.getElementById("clearBtn").addEventListener("click", clearReliefSelections);
+
 // Event listener
 document.getElementById("generateBtn").addEventListener("click", generateReliefTable);
