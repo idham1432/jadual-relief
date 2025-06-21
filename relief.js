@@ -23,6 +23,13 @@ function generateReliefTable() {
 
   const scheduleMap = getTeacherSchedule(timetable);
 
+  // Determine all absent teachers
+  const absentTeachers = timetable.filter((entry, index) => {
+    const isFullDay = document.querySelector(`input[name="absent-${index}-fullday"]`)?.checked;
+    const sessionCheckboxes = Array.from(document.querySelectorAll(`input[name^="absent-${index}-session-"]`));
+    return isFullDay || sessionCheckboxes.some(cb => cb.checked);
+  }).map(entry => entry.teacher);
+
   timetable.forEach((entry, tIndex) => {
     const teacherName = entry.teacher;
     const isFullDay = document.querySelector(`input[name="absent-${tIndex}-fullday"]`)?.checked;
@@ -87,7 +94,7 @@ function generateReliefTable() {
 
       timetable.forEach(candidate => {
         const candidateName = candidate.teacher;
-        if (candidateName === teacherName) return;
+        if (candidateName === teacherName || absentTeachers.includes(candidateName)) return;
 
         const candidateSchedule = scheduleMap[candidateName];
         const hasConflict = candidateSchedule.some(cs =>
@@ -114,27 +121,36 @@ function generateReliefTable() {
 
       // Attach event listener to prevent double booking
       select.addEventListener("change", (e) => {
-        const selectedValue = e.target.value;
         const selectedStart = parseInt(e.target.dataset.start);
         const selectedEnd = parseInt(e.target.dataset.end);
-
-        document.querySelectorAll(".reliefTimetable select").forEach(otherSelect => {
-          if (otherSelect === e.target) return;
-
-          const otherStart = parseInt(otherSelect.dataset.start);
-          const otherEnd = parseInt(otherSelect.dataset.end);
-
-          const isSameTime = selectedStart === otherStart && selectedEnd === otherEnd;
-          if (!isSameTime) return;
-
-          Array.from(otherSelect.children).forEach(optGroup => {
-            if (optGroup.label === "Special Cases") return;
-            Array.from(optGroup.children).forEach(option => {
-              option.disabled = (option.value === selectedValue);
-            });
-          });
+      
+        // Step 1: Collect all currently selected values for the same time
+        const selectedValuesAtTime = new Set();
+        document.querySelectorAll(".reliefTimetable select").forEach(sel => {
+          const selStart = parseInt(sel.dataset.start);
+          const selEnd = parseInt(sel.dataset.end);
+          if (selStart === selectedStart && selEnd === selectedEnd) {
+            const val = sel.value;
+            if (val && val !== "" && !["No relief available", "Program", "Pengawas", "Murid di kelas"].includes(val)) {
+              selectedValuesAtTime.add(val);
+            }
+          }
         });
-      });
+      
+        // Step 2: Update all selects for that time to disable selected values
+        document.querySelectorAll(".reliefTimetable select").forEach(sel => {
+          const selStart = parseInt(sel.dataset.start);
+          const selEnd = parseInt(sel.dataset.end);
+          if (selStart === selectedStart && selEnd === selectedEnd) {
+            Array.from(sel.children).forEach(optGroup => {
+              if (optGroup.label === "Special Cases") return;
+              Array.from(optGroup.children).forEach(option => {
+                option.disabled = selectedValuesAtTime.has(option.value);
+              });
+            });
+          }
+        });
+      });      
 
       currentMinute += session.duration;
       if (currentMinute >= 60) {
