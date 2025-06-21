@@ -3,6 +3,7 @@ function generateReliefTable() {
   reliefContainer.innerHTML = ""; // clear previous content
 
   const table = document.createElement("table");
+  table.classList.add("relief-table");
   table.innerHTML = `
     <thead>
       <tr>
@@ -17,7 +18,6 @@ function generateReliefTable() {
   `;
 
   const tbody = table.querySelector("tbody");
-
   const baseHour = 7;
   const baseMinute = 30;
 
@@ -35,7 +35,6 @@ function generateReliefTable() {
       const sessionCheckbox = sessionCheckboxes[sIndex];
       const isChecked = sessionCheckbox?.checked;
 
-      // Skip if not full day and this session is not marked
       if (!isFullDay && !isChecked) {
         currentMinute += session.duration;
         if (currentMinute >= 60) {
@@ -45,7 +44,6 @@ function generateReliefTable() {
         return;
       }
 
-      // Skip if no class assigned
       if (!session.subject || !session.classroom) {
         currentMinute += session.duration;
         if (currentMinute >= 60) {
@@ -55,14 +53,11 @@ function generateReliefTable() {
         return;
       }
 
-      // Compute start and end times
       const start = new Date(0, 0, 0, currentHour, currentMinute);
       const end = new Date(start.getTime() + session.duration * 60000);
       const timeLabel = `${formatTime(currentHour, currentMinute)} - ${formatTime(end.getHours(), end.getMinutes())}`;
 
-      // Create row
       const row = document.createElement("tr");
-
       row.innerHTML = `
         <td>${teacherName}</td>
         <td>${session.classroom}</td>
@@ -70,57 +65,77 @@ function generateReliefTable() {
         <td>${timeLabel}</td>
       `;
 
-      // Relief teacher dropdown
       const reliefTd = document.createElement("td");
       const select = document.createElement("select");
+      select.style.width = "100%";
+      select.dataset.teacher = teacherName;
+      select.dataset.start = start.getTime();
+      select.dataset.end = end.getTime();
+      select.dataset.index = `${tIndex}-${sIndex}`;
 
-      select.dataset.absentTeacher = teacherName;
-      select.dataset.sessionIndex = sIndex;
-
-      // Default option
       const defaultOption = new Option("-- Select Teacher --", "");
       select.appendChild(defaultOption);
 
-      // Optgroups
-      const optAvailable = createOptGroup("Available Teacher", []);
-      const optUnavailable = createOptGroup("Unavailable Teacher", []);
-      const optSpecial = createOptGroup("Special Cases", ["No relief available", "Program", "Pengawas", "Murid di kelas"]);
+      const optAvailable = document.createElement("optgroup");
+      optAvailable.label = "Available Teacher";
 
-      // Check availability
-      const currentSession = { start, end };
+      const optUnavailable = document.createElement("optgroup");
+      optUnavailable.label = "Unavailable Teacher";
 
-      timetable.forEach(candidateEntry => {
-        const candidateName = candidateEntry.teacher;
-        if (candidateName === teacherName) return; // Skip self
+      const optSpecial = document.createElement("optgroup");
+      optSpecial.label = "Special Cases";
 
-        const schedule = scheduleMap[candidateName];
-        const conflict = schedule.some(s =>
-          currentSession.start < s.end && s.start < currentSession.end
+      timetable.forEach(candidate => {
+        const candidateName = candidate.teacher;
+        if (candidateName === teacherName) return;
+
+        const candidateSchedule = scheduleMap[candidateName];
+        const hasConflict = candidateSchedule.some(cs =>
+          start < cs.end && cs.start < end
         );
 
-        const option = new Option(candidateName, candidateName);
-        if (conflict) {
-          optUnavailable.appendChild(option);
-        } else {
-          optAvailable.appendChild(option);
-        }
+        const label = hasConflict ? `❌ ${candidateName}` : candidateName;
+        const option = new Option(label, candidateName);
+        (hasConflict ? optUnavailable : optAvailable).appendChild(option);
       });
 
-      // Append optgroups
+      const specialCases = ["No relief available", "Program", "Pengawas", "Murid di kelas"];
+      specialCases.forEach(label => {
+        const option = new Option(`⚠️ ${label}`, label);
+        optSpecial.appendChild(option);
+      });
+
       select.appendChild(optAvailable);
       select.appendChild(optUnavailable);
       select.appendChild(optSpecial);
-
-      // Add event listener to track changes
-      select.addEventListener("change", (e) => {
-        console.log(`Relief selected for ${teacherName} [${session.subject} at ${session.classroom} ${timeLabel}]:`, e.target.value);
-      });
-
       reliefTd.appendChild(select);
       row.appendChild(reliefTd);
       tbody.appendChild(row);
 
-      // Advance time
+      // Attach event listener to prevent double booking
+      select.addEventListener("change", (e) => {
+        const selectedValue = e.target.value;
+        const selectedStart = parseInt(e.target.dataset.start);
+        const selectedEnd = parseInt(e.target.dataset.end);
+
+        document.querySelectorAll(".reliefTimetable select").forEach(otherSelect => {
+          if (otherSelect === e.target) return;
+
+          const otherStart = parseInt(otherSelect.dataset.start);
+          const otherEnd = parseInt(otherSelect.dataset.end);
+
+          const isSameTime = selectedStart === otherStart && selectedEnd === otherEnd;
+          if (!isSameTime) return;
+
+          Array.from(otherSelect.children).forEach(optGroup => {
+            if (optGroup.label === "Special Cases") return;
+            Array.from(optGroup.children).forEach(option => {
+              option.disabled = (option.value === selectedValue);
+            });
+          });
+        });
+      });
+
       currentMinute += session.duration;
       if (currentMinute >= 60) {
         currentHour += Math.floor(currentMinute / 60);
