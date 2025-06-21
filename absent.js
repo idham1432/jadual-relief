@@ -1,3 +1,30 @@
+function saveCheckboxState() {
+  const checkboxStates = {};
+  const checkboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
+  checkboxes.forEach(cb => {
+    checkboxStates[cb.name] = {
+      checked: cb.checked,
+      disabled: cb.disabled
+    };
+  });
+  localStorage.setItem("checkboxStates", JSON.stringify(checkboxStates));
+}
+
+function loadCheckboxState() {
+  const saved = localStorage.getItem("checkboxStates");
+  if (!saved) return;
+
+  const checkboxStates = JSON.parse(saved);
+  const checkboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
+
+  checkboxes.forEach(cb => {
+    if (checkboxStates[cb.name]) {
+      cb.checked = checkboxStates[cb.name].checked;
+      cb.disabled = checkboxStates[cb.name].disabled;
+    }
+  });
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("checkboxContainer");
 
@@ -124,9 +151,13 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     
       updateSummary();
+
+      saveCheckboxState();
     });    
     return wrapper;
   }
+  loadCheckboxState();
+  updateSummary();
 });
 
 document.getElementById('absentDate').addEventListener('change', function () {
@@ -160,6 +191,7 @@ document.getElementById("selectAllBtn").addEventListener("click", () => {
   });
 
   updateSummary();
+  saveCheckboxState();
 });
 
 document.getElementById("resetBtn").addEventListener("click", () => {
@@ -170,6 +202,7 @@ document.getElementById("resetBtn").addEventListener("click", () => {
     cb.disabled = false;
   });
   updateSummary();
+  saveCheckboxState();
 });
 
 function updateSummary() {
