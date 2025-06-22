@@ -1,3 +1,4 @@
+/*
 let lastScroll = 0;
 const navbar = document.querySelector('.navbar');
 
@@ -25,3 +26,4 @@ themeToggle.addEventListener('click', () => {
   themeToggle.classList.toggle('fa-toggle-off');
   themeToggle.classList.toggle('fa-toggle-on');
 });
+*/
