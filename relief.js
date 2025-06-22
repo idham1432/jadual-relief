@@ -98,8 +98,10 @@ function generateReliefTable() {
       name: c.teacher,
       hasConflict: scheduleMap[c.teacher].some(cs =>
         group.some(g => g.start < cs.end && cs.start < g.end)
-      )
-    }));
+      ),
+      sessionCount: totalSessions[c.teacher] || 0
+    }))
+    .sort((a, b) => a.sessionCount - b.sessionCount); // ✅ sort ascending
 
     const available = candidates.filter(c => !c.hasConflict);
     const assigned = available.length
@@ -149,7 +151,7 @@ function generateReliefTable() {
         else optAvailable.appendChild(option);
       });
 
-      const specialCases = ["No relief available", "Program", "Pengawas", "Murid di kelas"];
+      const specialCases = ["No relief available", "Program", "Pengawas", "Murid di kelas", "Murid di dewan", "Murid di dataran"];
       specialCases.forEach(label => {
         const option = new Option(`⚠️ ${label}`, label);
         optSpecial.appendChild(option);
@@ -165,7 +167,10 @@ function generateReliefTable() {
       row.appendChild(reliefTd);
       tbody.appendChild(row);
 
-      select.addEventListener("change", applyReliefConflictRules);     
+      select.addEventListener("change", () => {
+        applyReliefConflictRules();
+        saveReliefState(); // ✅ Save new selection immediately
+      });         
     });
   });
 
@@ -275,7 +280,53 @@ function clearReliefSelections() {
   });
 }
 
-document.getElementById("clearBtn").addEventListener("click", clearReliefSelections);
+function saveReliefState() {
+  const tableHTML = document.querySelector(".reliefTimetable").innerHTML;
+  const selections = Array.from(document.querySelectorAll(".reliefTimetable select")).map(select => ({
+    value: select.value,
+    start: select.dataset.start,
+    end: select.dataset.end,
+    teacher: select.dataset.teacher
+  }));
+  localStorage.setItem("reliefTable", tableHTML);
+  localStorage.setItem("reliefSelections", JSON.stringify(selections));
+}
 
-// Event listener
-document.getElementById("generateBtn").addEventListener("click", generateReliefTable);
+document.getElementById("generateBtn").addEventListener("click", () => {
+  generateReliefTable();
+  saveReliefState();
+});
+
+document.getElementById("clearBtn").addEventListener("click", () => {
+  clearReliefSelections();
+  saveReliefState(); // Save cleared state
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+  const savedTable = localStorage.getItem("reliefTable");
+  const savedSelections = JSON.parse(localStorage.getItem("reliefSelections") || "[]");
+
+  if (savedTable) {
+    document.querySelector(".reliefTimetable").innerHTML = savedTable;
+
+    // Rebind change event and restore selections
+    const selects = document.querySelectorAll(".reliefTimetable select");
+
+    selects.forEach(select => {
+      const match = savedSelections.find(s =>
+        s.start === select.dataset.start &&
+        s.end === select.dataset.end &&
+        s.teacher === select.dataset.teacher
+      );
+      if (match) {
+        select.value = match.value;
+      }
+      select.addEventListener("change", () => {
+        applyReliefConflictRules();
+        saveReliefState(); // ✅ Save changes made after reload
+      });      
+    });
+
+    applyReliefConflictRules(); // Re-apply conflict disabling
+  }
+});
