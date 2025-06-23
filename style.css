@@ -264,7 +264,7 @@ h2 {
 }
 /* Only apply scroll and sticky styles inside this specific timetable */
 .timetable-scroll {
-  max-height: 400px; /* or any height you want */
+  max-height: 600px; /* or any height you want */
   overflow-y: auto;
   position: relative;
 }
@@ -392,6 +392,21 @@ h2 {
   margin-left: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+/* Make the entire accordion scrollable */
+.scrollable-accordion {
+  max-height: 600px; /* or however tall you want it */
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Make the accordion title sticky */
+.scrollable-accordion .accordion {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: white; /* Ensure it's not transparent */
+  border-bottom: 1px solid #ccc;
 }
 /* ---- Absent Teachers ---- */
 
