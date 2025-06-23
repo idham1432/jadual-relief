@@ -480,14 +480,30 @@ h2 {
 #footer {
   margin: 30px 0 10px 0;
   display: flex;
+  flex-direction: column;
+  gap: 10px;
   width: 100%;
   height: 100px;
   align-items: center;
   justify-content: center;
 }
-#footer img {
+#quoteDisplay {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 4px;
+  border-radius: 8px;
+  font-family: monospace;
+  font-style: italic;
+  color: #333;
+}
+#penguin {
   width: 60px;
-  animation: spin 16s linear infinite;
+  cursor: pointer;
+  /* animation: spin 16s linear infinite; */
+}
+#penguin:hover {
+  animation: spin 4s linear infinite;
 }
 @keyframes spin {
   from {
