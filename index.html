@@ -34,6 +34,21 @@
     </div>
   </nav>
 
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebarIcon">
+      <img src="sidebar.png" alt="">
+    </div>
+    <div class="sidebarContent">
+      <div class="textareaContainer" style="display: none;">
+        <textarea placeholder="Type something..."></textarea>
+      </div>
+      <div class="clearButtonContainer" style="display: none;">
+        <button id="clearTextarea">Clear</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Timetable -->
   <div class="accordion-container">
     <h2 class="accordion" id="timetableHeader">Timetable</h2>
@@ -117,7 +132,8 @@
     </div>
   </div>
 
-  <!-- Notes -->
+  <!-- Notes (Disabled for now) -->
+  <!--
   <button id="toggleNotesBtn" title="Notes">
     <i class="fa-regular fa-note-sticky"></i>
   </button>
@@ -127,6 +143,7 @@
       <i class="fa-solid fa-trash"></i>
     </button>
   </div>
+  -->
 
   <!-- Back To Top -->
   <button id="backToTopBtn" title="Back to top">
@@ -147,6 +164,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <!-- Navbar -->
   <script src="navbar.js"></script>
+  <!-- Sidebar -->
+  <script src="sidebar.js"></script>
   <!-- Data -->
   <script src="data.js"></script>
   <!-- Timetable -->

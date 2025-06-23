@@ -7,10 +7,11 @@ html {
   scroll-behavior: smooth;
 }
 body {
-  padding: 70px 40px 0 40px;
+  padding: 70px 20px 0 70px;
   width: 100%;
   font-family: Arial, sans-serif;
   position: relative;
+  transition: padding 0.15s ease;
 }
 h2 {
   margin-bottom: 10px;
@@ -19,18 +20,19 @@ h2 {
 /* ---- Navbar ---- */
 .navbar {
   z-index: 1000;
-  width: 100%;
   height: 50px;
   padding: 8px 24px;
   background-color: #fff;
-  border-bottom: 3px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   /* box-shadow: 0 2px 8px 2px rgba(0, 0, 0, 0.1); */
   position: fixed;
-  left: 0;
+  left: 50px;
+  right: 0;
   top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: left 0.15s ease;
 }
 .navbar--hidden {
   transform: translateY(-100%);
@@ -98,6 +100,77 @@ h2 {
   opacity: 1;
 }
 /* ---- Navbar ---- */
+
+/* ---- Sidebar ---- */
+.sidebar {
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  transition: width 0.15s ease;
+}
+.sidebarIcon {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px 0 10px;
+}
+.sidebar img {
+  width: 20px;
+  height: 20px;
+  opacity: 0.6;
+  cursor: pointer;
+}
+.sidebarContent {
+  width: 100%;
+  height: 100%;
+  /* background-color: lightblue; */
+}
+.textareaContainer {
+  width: 100%;
+  height: 90%;
+  padding: 10px 5px 0 5px;
+}
+.textareaContainer textarea {
+  width: 100%;
+  height: 100%;
+  font-size: 13px;
+  border-radius: 8px;
+  padding: 8px;
+  background-color: rgba(255, 255, 0, 0.1);
+  border: 1 px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.6);
+}
+.clearButtonContainer {
+  margin: 10px 5px;
+  text-align: right; /* optional: align to the right inside sidebar */
+}
+.clearButtonContainer button {
+  width: 100%;
+  padding: 10px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #e74c3c; /* red background */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: 0.15s;
+}
+.clearButtonContainer button:hover {
+  border: 1px solid #e74c3c;
+  background-color: white;
+  color: #e74c3c;
+}
+
+/* ---- Sidebar ---- */
 
 /* ---- Timetable ---- */
 .accordion-container {
@@ -385,7 +458,7 @@ h2 {
 
 /* ---- Footer ---- */
 #footer {
-  margin: 100px 0 10px 0;
+  margin: 30px 0 10px 0;
   display: flex;
   width: 100%;
   height: 100px;
@@ -393,8 +466,8 @@ h2 {
   justify-content: center;
 }
 #footer img {
-  width: 70px;
-  animation: spin 8s linear infinite;
+  width: 60px;
+  animation: spin 16s linear infinite;
 }
 @keyframes spin {
   from {
