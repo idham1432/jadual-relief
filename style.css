@@ -166,7 +166,7 @@ h2 {
   border-radius: 8px;
   padding: 8px;
   background-color: rgba(255, 255, 0, 0.1);
-  border: 1 px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.5);
   color: rgba(0, 0, 0, 0.6);
 }
 .clearButtonContainer {
@@ -189,7 +189,6 @@ h2 {
   background-color: white;
   color: #e74c3c;
 }
-
 /* ---- Sidebar ---- */
 
 /* ---- Timetable ---- */
@@ -426,10 +425,16 @@ h2 {
 #clearBtn {
   color: red;
 }
+#pdfBtn {
+  color: #00b14f;
+}
 .reliefTimetableContainer {
   margin: 10px;
   border-radius: 8px;
 }
+/* #reliefHeader {
+  margin-bottom: -20px;
+} */
 .reliefTimetable table {
   width: 100%;
   border-collapse: collapse;
@@ -596,3 +601,45 @@ h2 {
   background-color: #00b14f;
 }
 /* ---- Back To Top ---- */
+
+/* ---- html2canvas ---- */
+@media print {
+  .print-friendly select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    background: transparent;
+    pointer-events: none;
+    /* font-weight: bold; */
+  }
+  .print-friendly select option {
+    display: none;
+  }
+  .print-friendly button,
+  .print-friendly .no-print {
+    display: none !important;
+  }
+  .print-friendly table,
+  .print-friendly th,
+  .print-friendly td {
+    border: 1px solid #000 !important;
+    border-collapse: collapse;
+  }
+  .print-friendly th,
+  .print-friendly td {
+    padding: 5px !important;
+  }
+}
+/* Optional: preview/HTML2Canvas styling for consistency */
+.print-friendly select {
+  border: none;
+  background: none;
+  pointer-events: none;
+  /* font-weight: bold; */
+}
+.print-friendly button,
+.print-friendly .no-print {
+  display: none;
+}
+/* ---- html2canvas ---- */

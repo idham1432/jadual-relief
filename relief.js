@@ -330,3 +330,119 @@ window.addEventListener("DOMContentLoaded", () => {
     applyReliefConflictRules(); // Re-apply conflict disabling
   }
 });
+
+const dateInput = document.querySelector('#absentDate');  // your date input inside .inputGroup
+const dayInput = document.querySelector('#absentDay');    // your day input inside .inputGroup
+
+function updateSavedDateDayDisplay() {
+  const storedDate = localStorage.getItem("selectedDate");
+  const storedDay = localStorage.getItem("selectedDay");
+
+  if (storedDate) {
+    const [year, month, day] = storedDate.split("-");
+    const formattedDate = `${day}/${month}/${year}`;
+    document.getElementById("savedDateDisplay").textContent = `Date: ${formattedDate}`;
+  }
+
+  if (storedDay) {
+    document.getElementById("savedDayDisplay").textContent = `Day: ${storedDay}`;
+  }
+}
+
+function saveDateDayToLocalStorage() {
+  const selectedDate = dateInput.value;
+
+  // Wait for a short moment to ensure day is auto-updated
+  setTimeout(() => {
+    const selectedDay = dayInput.value;
+
+    localStorage.setItem("selectedDate", selectedDate);
+    localStorage.setItem("selectedDay", selectedDay);
+    updateSavedDateDayDisplay();
+  }, 50); // short delay to allow day input to update
+}
+
+// Event listeners for when user changes date/day input
+dateInput.addEventListener("input", saveDateDayToLocalStorage);
+dayInput.addEventListener("input", saveDateDayToLocalStorage);
+
+// Load on DOM ready
+window.addEventListener("DOMContentLoaded", () => {
+  const savedDate = localStorage.getItem("selectedDate");
+  const savedDay = localStorage.getItem("selectedDay");
+
+  if (savedDate) dateInput.value = savedDate;
+  if (savedDay) dayInput.value = savedDay;
+
+  updateSavedDateDayDisplay();
+});
+
+// PDF download
+document.getElementById("pdfBtn").addEventListener("click", async () => {
+  const container = document.querySelector(".reliefTimetableContainer");
+  const canvas = await html2canvas(container, { scale: 1.5 }); // Higher quality
+
+  const imgData = canvas.toDataURL("image/png");
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF("p", "mm", "a4");
+
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+
+  const imgProps = pdf.getImageProperties(imgData);
+  const pdfWidth = pageWidth;
+  const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+  const canvasHeight = canvas.height;
+  const canvasWidth = canvas.width;
+  const pageCanvasHeight = (pageHeight * canvasWidth) / pageWidth;
+
+  let position = 0;
+
+  while (position < canvasHeight) {
+    const pageCanvas = document.createElement("canvas");
+    pageCanvas.width = canvasWidth;
+    pageCanvas.height = pageCanvasHeight;
+
+    const pageCtx = pageCanvas.getContext("2d");
+    pageCtx.drawImage(
+      canvas,
+      0,
+      position,
+      canvasWidth,
+      pageCanvasHeight,
+      0,
+      0,
+      canvasWidth,
+      pageCanvasHeight
+    );
+
+    const pageImgData = pageCanvas.toDataURL("image/png");
+    if (position > 0) pdf.addPage();
+    pdf.addImage(
+      pageImgData,
+      "PNG",
+      0,
+      0,
+      pdfWidth,
+      (pageCanvasHeight * pdfWidth) / canvasWidth
+    );
+
+    position += pageCanvasHeight;
+  }
+
+  pdf.save("relief-timetable.pdf");
+});
+
+// PNG download
+document.getElementById("pngBtn").addEventListener("click", async () => {
+  const container = document.querySelector(".reliefTimetableContainer");
+  const canvas = await html2canvas(container, { scale: 2 });
+
+  const imgData = canvas.toDataURL("image/png");
+
+  const link = document.createElement("a");
+  link.href = imgData;
+  link.download = "relief-timetable.png";
+  link.click();
+});
