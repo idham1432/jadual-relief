@@ -15,15 +15,15 @@ window.addEventListener('scroll', () => {
 
   lastScroll = currentScroll;
 });
+*/
 
 const themeToggle = document.getElementById('themeToggle');
-  const body = document.body;
+  // const body = document.body;
 
 themeToggle.addEventListener('click', () => {
-  body.classList.toggle('dark-mode');
+  // body.classList.toggle('dark-mode');
 
   // Toggle the icon
   themeToggle.classList.toggle('fa-toggle-off');
   themeToggle.classList.toggle('fa-toggle-on');
 });
-*/

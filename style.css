@@ -262,6 +262,21 @@ h2 {
 .duration-20 {
   flex: 0.66;
 }
+/* Only apply scroll and sticky styles inside this specific timetable */
+.timetable-scroll {
+  max-height: 400px; /* or any height you want */
+  overflow-y: auto;
+  position: relative;
+}
+/* Make the first row sticky */
+#timetableContainer .row:first-child {
+  position: sticky;
+  top: 0;
+  background-color: #f0f0f0;
+  z-index: 10;
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+}
 /* ---- Timetable ---- */
 
 /* ---- Absent Teachers ---- */
