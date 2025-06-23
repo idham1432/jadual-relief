@@ -37,3 +37,22 @@ function typeQuote() {
 // Start with a random quote
 currentQuote = getRandomQuote();
 typeQuote();
+
+document.addEventListener("DOMContentLoaded", () => {
+  const penguin = document.getElementById("penguin");
+  if (penguin) {
+    penguin.addEventListener("click", (event) => {
+      // Confetti effect
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { x:0, y: 0.9 },
+      });
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { x:1, y: 0.9 },
+      });
+    });
+  }
+});
