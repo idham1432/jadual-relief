@@ -221,4 +221,6 @@ function updateSummary() {
   document.getElementById("totalCount").textContent = total;
   document.getElementById("presentCount").textContent = present;
   document.getElementById("absentCount").textContent = absent;
+  document.getElementById("presentCountNavbar").textContent = present;
+  document.getElementById("absentCountNavbar").textContent = absent;
 }
