@@ -380,7 +380,7 @@ window.addEventListener("DOMContentLoaded", () => {
 // PDF download
 document.getElementById("pdfBtn").addEventListener("click", async () => {
   const container = document.querySelector(".reliefTimetableContainer");
-  const canvas = await html2canvas(container, { scale: 1.5 }); // Higher quality
+  const canvas = await html2canvas(container, { scale: 1 }); // Higher quality
 
   const imgData = canvas.toDataURL("image/png");
   const { jsPDF } = window.jspdf;
