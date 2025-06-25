@@ -84,16 +84,11 @@ function generateReliefTable() {
     const session = timetable[first.tIndex].sessions[first.sIndex];
 
     const candidates = timetable
-    .filter(c =>
-      c.teacher !== teacherName &&
-      !absentTeachers.includes(c.teacher) &&
-      !Object.entries(assignedTeachers).some(([assigned, times]) =>
-        assigned === c.teacher &&
-        times.some(time =>
-          group.some(g => g.start < time.end && time.start < g.end)
-        )
+      .filter(c =>
+        c.teacher !== teacherName &&
+        !absentTeachers.includes(c.teacher)
       )
-    )
+
     .map(c => ({
       name: c.teacher,
       hasConflict: scheduleMap[c.teacher].some(cs =>
@@ -103,7 +98,12 @@ function generateReliefTable() {
     }))
     .sort((a, b) => a.sessionCount - b.sessionCount); // ✅ sort ascending
 
-    const available = candidates.filter(c => !c.hasConflict);
+    const available = candidates.filter(c =>
+      !c.hasConflict &&
+      !(assignedTeachers[c.name]?.some(time =>
+        group.some(g => g.start < time.end && time.start < g.end)
+      ))
+    );    
     const assigned = available.length
     ? available[Math.floor(Math.random() * available.length)].name
     : "No relief available";
