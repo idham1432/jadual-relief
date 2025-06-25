@@ -211,7 +211,7 @@ h2 {
   text-align: left;
   outline: none;
   margin-bottom: 0;
-  transition: 0.4s;
+  /* transition: 0.4s; */
 }
 /* .accordion:hover {
   background-color: #ddd;
@@ -409,7 +409,7 @@ h2 {
   top: 0;
   z-index: 10;
   background-color: white; /* Ensure it's not transparent */
-  border-bottom: 1px solid #ccc;
+  /* border-bottom: 1px solid #ccc; */
 }
 /* ---- Absent Teachers ---- */
 
