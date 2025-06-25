@@ -1,6 +1,6 @@
 .dark-mode {
   background-color: rgb(13, 17, 23);
-  color: #fff;
+  color: #f9f9f9;
 }
 /* ---- Navbar ---- */
 .dark-mode .navbar {
@@ -22,14 +22,14 @@
 }
 .dark-mode .textareaContainer textarea {
   border: 1px solid rgba(255, 255, 255, 0.5);
-  color: #fff;
+  color: #f9f9f9;
 }
 /* ---- Timetable ---- */
 .dark-mode .accordion-container {
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .dark-mode .accordion {
-  color: #fff;
+  color: #f9f9f9;
 }
 .dark-mode .cell {
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -46,7 +46,7 @@
 /* ---- Absent Teachers ---- */
 .dark-mode #absentHeader {
   background-color: rgb(13, 17, 23);
-  color: #fff;
+  color: #f9f9f9;
 }
 .dark-mode #selectAllBtn,
 .dark-mode #resetBtn {
@@ -55,10 +55,10 @@
 }
 /* ---- Relief ---- */
 .dark-mode .reliefContainer {
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .dark-mode #reliefHeader {
-  color: #fff;
+  color: #f9f9f9;
 }
 .dark-mode #generateBtn, 
 .dark-mode #clearBtn, 
@@ -68,18 +68,23 @@
   border: 1px solid rgba(255, 255, 255, 0.7);
 }
 .dark-mode #pngBtn {
-  color: #fff;
+  color: #f9f9f9;
 }
 .dark-mode .reliefTimetable th {
   background-color: #444;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.dark-mode .reliefTimetable th,
+.dark-mode .reliefTimetable td {
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .dark-mode .reliefTimetable select {
   background-color: rgb(13, 17, 23);
-  color: #fff;
+  color: #f9f9f9;
 }
 /* ---- Footer ---- */
 .dark-mode #quoteDisplay {
-  color: #fff;
+  color: #f9f9f9;
 }
 /* ---- Notes ---- */
 /* ---- Back To Top ---- */
