@@ -193,12 +193,12 @@ h2 {
 
 /* ---- Timetable ---- */
 .accordion-container {
-  border: 2px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 8px;
   margin-bottom: 30px;
 }
 .accordion-container.expanded {
-  border: 2px solid greenyellow; /* blue border when expanded */
+  border: 1px solid greenyellow; /* blue border when expanded */
 }
 .accordion {
   display: flex;
@@ -213,9 +213,9 @@ h2 {
   margin-bottom: 0;
   transition: 0.4s;
 }
-.accordion:hover {
+/* .accordion:hover {
   background-color: #ddd;
-}
+} */
 .panel {
   max-height: 0;
   overflow: hidden;
@@ -256,6 +256,9 @@ h2 {
   flex: 2;
   background-color: #f0f0f0;
 }
+.classroom {
+  color: #555;
+}
 .duration-30 {
   flex: 1;
 }
@@ -275,7 +278,7 @@ h2 {
   background-color: #f0f0f0;
   z-index: 10;
   font-weight: bold;
-  border-bottom: 2px solid #ccc;
+  /* border-bottom: 1px solid #ccc; */
 }
 /* ---- Timetable ---- */
 
@@ -356,7 +359,7 @@ h2 {
 #selectAllBtn, #resetBtn {
   width: 45px;
   height: 45px;
-  border: 2px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.5);
   background-color: #fff;
   border-radius: 5px;
   font-size: 18px;
@@ -413,7 +416,7 @@ h2 {
 /* ---- Relief ---- */
 .reliefContainer {
   width: 100%;
-  border: 2px solid greenyellow;
+  border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 8px;
   margin-bottom: 30px;
 }
@@ -442,7 +445,7 @@ h2 {
 #generateBtn, #clearBtn, #pdfBtn, #pngBtn {
   width: 45px;
   height: 45px;
-  border: 2px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.5);
   background-color: #fff;
   border-radius: 5px;
   font-size: 18px;

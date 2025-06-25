@@ -65,9 +65,9 @@ const container = document.getElementById('timetableContainer');
       
         // Create classroom text
         const classDiv = document.createElement('div');
+        classDiv.classList.add('classroom');
         classDiv.textContent = session.classroom || "";
         classDiv.style.fontSize = "0.8em";
-        classDiv.style.color = "#555";
         classDiv.style.overflow = 'hidden';
         classDiv.style.whiteSpace = 'nowrap';
         classDiv.style.textOverflow = 'ellipsis';
